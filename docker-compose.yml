@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   minthcm-web:
-    image: minthcm/minthcm
+    image: minthcm/minthcm:${SOFTWARE_VERSION_TAG}
     restart: always
     ports:
       - "172.17.0.1:50159:80"
@@ -27,9 +27,9 @@ services:
       - ./storage/minthcm_db:/var/lib/mysql
 
   minthcm-es:
-    image: "docker.elastic.co/elasticsearch/elasticsearch:7.9.3"
+    image: "opensearchproject/opensearch:latest"
     volumes:
-      - ./storage/minthcm_es:/usr/share/elasticsearch/data
+      - ./storage/minthcm_es:/usr/share/opensearch/data
     mem_limit: 4g
     environment:
       - node.name=es1
