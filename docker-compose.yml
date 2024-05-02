@@ -1,12 +1,13 @@
 version: "2.1"
 services:
   minthcm-web:
-    image: minthcm/minthcm:${SOFTWARE_VERSION_TAG}
+    image: minthcm/minthcm
     restart: always
     ports:
       - "172.17.0.1:50159:80"
     expose:
       - "80"
+    hostname: minthcm-www
     depends_on:
       - minthcm-db
     tty: true
@@ -27,9 +28,9 @@ services:
       - ./storage/minthcm_db:/var/lib/mysql
 
   minthcm-es:
-    image: "opensearchproject/opensearch:latest"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.9.3"
     volumes:
-      - ./storage/minthcm_es:/usr/share/opensearch/data
+      - ./storage/minthcm_es:/usr/share/elasticsearch/data
     mem_limit: 4g
     environment:
       - node.name=es1
