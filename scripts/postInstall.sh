@@ -24,6 +24,11 @@ else
     chown -R 1000:1000 ./minthcm_db;
     chown -R 1000:1000 ./minthcm_es;
 
+    chmod -R 777 ./minthcm_www
+    chmod -R 777 ./minthcm_cron
+    chmod -R 777 ./minthcm_db
+    chmod -R 777 ./minthcm_es
+
     docker-compose up -d minthcm-es;
 
     sleep 60s;
