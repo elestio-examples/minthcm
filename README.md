@@ -13,11 +13,11 @@ Deploy MintHCM server with CI/CD on Elestio
 You can open MintHCM here:
 
     URL: https://[CI_CD_DOMAIN]/admin
-    email: admin
+    login: admin
     password: [ADMIN_PASSWORD]
 
-You can open pgAdmin here:
+You can open phpMyAdmin here:
 
-    URL: https://[CI_CD_DOMAIN]:50371
-    email: [ADMIN_EMAIL]
+    URL: https://[CI_CD_DOMAIN]:63531
+    login: root
     password: [ADMIN_PASSWORD]

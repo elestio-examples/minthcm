@@ -15,8 +15,10 @@ services:
     env_file:
       - ./.env
     volumes:
-      - ./storage/minthcm_www:/var/www/html
-      - ./storage/minthcm_cron:/var/spool/cron/crontabs
+      - minthcm_www:/var/www
+      - minthcm_cron:/var/spool/cron/crontabs
+    networks:
+      minthcm:
 
   minthcm-db:
     image: percona:8
@@ -25,12 +27,14 @@ services:
       MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD}"
       SYS_NICE: CAP_SYS_NICE
     volumes:
-      - ./storage/minthcm_db:/var/lib/mysql
+      - minthcm_db:/var/lib/mysql
+    networks:
+      minthcm:
 
   minthcm-es:
     image: "docker.elastic.co/elasticsearch/elasticsearch:7.9.3"
     volumes:
-      - ./storage/minthcm_es:/usr/share/elasticsearch/data
+      - minthcm_es:/usr/share/elasticsearch/data
     mem_limit: 4g
     environment:
       - node.name=es1
@@ -45,3 +49,56 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+    expose:
+      - 9200
+    networks:
+      minthcm:
+
+  pma:
+    image: elestio/phpmyadmin
+    restart: always
+    links:
+      - minthcm-db:minthcm-db
+    ports:
+      - "172.17.0.1:34788:80"
+    environment:
+      PMA_HOST: minthcm-db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+      UPLOAD_LIMIT: 500M
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - minthcm-db
+    networks:
+      minthcm:
+
+volumes:
+  minthcm_www:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/minthcm_www
+      o: bind
+  minthcm_cron:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/minthcm_cron
+      o: bind
+  minthcm_db:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/minthcm_db
+      o: bind
+  minthcm_es:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/minthcm_es
+      o: bind
+
+networks:
+  minthcm:
