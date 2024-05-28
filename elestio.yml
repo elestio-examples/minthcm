@@ -59,6 +59,12 @@ environments:
     value: "no"
   - key: "REBUILD_FRONTEND"
     value: "no"
+  - key: "SMTP_FROM"
+    value: "[DOMAIN]@vm.elestio.app"
+  - key: "SMTP_HOSTS"
+    value: "172.17.0.1"
+  - key: "SMTP_PORT"
+    value: "25"
 
 config:
   runTime: "dockerCompose"
@@ -81,8 +87,4 @@ webUI:
   - url: "https://[CI_CD_DOMAIN]"
     label: "MintHCM"
     login: "admin"
-    password: "[ADMIN_PASSWORD]"
-  - url: "https://[CI_CD_DOMAIN]:50371"
-    label: "pgAdmin"
-    login: "[ADMIN_EMAIL]"
     password: "[ADMIN_PASSWORD]"

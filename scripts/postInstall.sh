@@ -29,3 +29,5 @@ docker-compose up -d;
 sleep 120s;
 
 
+docker-compose exec -T minthcm-db bash -c "mysql -u root -p'${MYSQL_PASSWORD}' -e \"USE minthcm; UPDATE outbound_email SET smtp_from_name='MintHCM', smtp_from_addr='${SMTP_FROM}', mail_smtpserver='${SMTP_HOSTS}', mail_smtpport='${SMTP_PORT}' WHERE mail_sendtype='SMTP';\""
+
