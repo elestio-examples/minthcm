@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   minthcm-web:
-    image: minthcm/minthcm
+    image: minthcm/minthcm:${SOFTWARE_VERSION_TAG}
     restart: always
     ports:
       - "172.17.0.1:50159:80"
